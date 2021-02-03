@@ -1,0 +1,28 @@
+<%- include('partials/public_header'); %>
+<div class="container">
+    <form id="doRegister" class="login-form" action="/ppms/register" method="POST">
+        <div class="login-wrap">
+          <p class="login-img"><i class="icon_profile"></i></p>
+          <%- include('partials/alert_messages'); %>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon_profile"></i></span>
+            <input type="text" id="user_name" name="user_name" class="form-control" placeholder="User Name" autofocus>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon_mail_alt"></i></span>
+            <input type="text" id="email_address" name="email_address" class="form-control" placeholder="Email" autofocus>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+          </div>
+          <a class="btn btn-primary btn-lg btn-block" href="#" onclick="document.getElementById('doRegister').submit();">Register</a>
+          <label class="checkbox">
+            <span class="pull-right"> Already have an account? <a href="/ppms"> Login</a></span>
+          </label>
+        </div>
+      </form>
+</div>
+
+
+<%- include('partials/public_footer'); %>
