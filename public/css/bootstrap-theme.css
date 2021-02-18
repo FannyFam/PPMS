@@ -1295,7 +1295,7 @@ th {
 .table thead > tr > td,
 .table tbody > tr > td,
 .table tfoot > tr > td {
-  padding: 8px;
+  padding: 4px;
   line-height: 1.428571429;
   vertical-align: top;
   border-top: 1px solid #dddddd;
@@ -1556,8 +1556,8 @@ input[type="number"]::-webkit-inner-spin-button {
   display: block;
   width: 100%;
   height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
+  padding: 1px 1px;
+  font-size: 10px;
   line-height: 1.428571429;
   color: #8e8e93;
   vertical-align: middle;
@@ -1801,7 +1801,7 @@ textarea.input-lg {
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: normal;
   line-height: 1.428571429;
   text-align: center;

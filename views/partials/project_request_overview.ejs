@@ -1,0 +1,237 @@
+<!-- Summary and Comments 15 Feb-->
+<div class="row">
+  <div class="col-lg-12">
+    <section class="panel">
+      <header class="panel-heading tab-bg-info">
+        <ul class="nav nav-tabs">
+          <li>
+            <a data-toggle="tab" href="#summary"> Summary </a>
+          </li>
+          <li class="">
+            <a data-toggle="tab" href="#comments"> Comments </a>
+          </li>
+        </ul>
+      </header>
+      <div class="panel-body">
+        <div class="tab-content">
+          <!-- Overview -->
+          <div id="summary" class="tab-pane active">
+            <section class="panel">
+              <div class="panel-heading">
+                <div class="pull-left">Summary</div>
+                <div class="widget-icons pull-right">
+                  <a href="#" onclick="document.getElementById('summaryBody').style.display='none'" class="wminimize"><i
+                      class="fa fa-chevron-up"></i></a>
+                  <a href="#" onclick="document.getElementById('summaryBody').style.display='block'"
+                    class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+                </div>
+              </div>
+              <div class="panel-body" id="summaryBody">
+                <div style="display:inline-block;width:100%;height:250px;overflow-y:auto;">
+                  <ul class="timeline timeline-horizontal">
+                    <li class="timeline-item">
+                      <%if(projRequestInfo.stepDraft == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepDraft == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>                    
+                    <div class="timeline-panel">
+                      <div class="timeline-title">PR-Drafted</div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepCreate == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepCreate == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>        
+                    <div class="timeline-panel">
+                      <div class="timeline-title">PR-Created</div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepValid == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepValid == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>        
+                    <div class="timeline-panel">
+                      <div class="timeline-title">PR-Valid</div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepPreWork == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepPreWork == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>        
+                    <div class="timeline-panel">
+                      <div class="timeline-title">PR-PreWork</div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepQuote == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepQuote == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>       
+                    <div class="timeline-panel">
+                      <div class="timeline-title">PR-Quote</div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepSRB == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepSRB == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>   
+                    <div class="timeline-panel">
+                      <div class="timeline-title">PR-SRB</div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepCosted == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepCosted == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>   
+                    <div class="timeline-panel">
+                      <div class="timeline-title">PR-Costed</div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepScore == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepScore == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>   
+                    <div class="timeline-panel">
+                      <div class="timeline-title">
+                        PR-Score
+                      </div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepSelect == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepSelect == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>   
+                    <div class="timeline-panel">
+                      <div class="timeline-title">
+                        PR-Select                        
+                      </div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <%if(projRequestInfo.stepOpen == 'Started'){%>
+                      <div class="timeline-badge warning"><i class="fa fa-circle"></i></div>
+                      <%}else if(projRequestInfo.stepOpen == 'Completed'){%>
+                      <div class="timeline-badge danger"><i class="fa fa-check"></i></div>
+                      <%}else{%>
+                      <div class="timeline-badge default"><i class="fa fa-circle"></i></div>
+                      <%}%>   
+                    <div class="timeline-panel">
+                      <div class="timeline-title">
+                        Open PRJ
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </div>
+          <!-- Comments -->
+          <div id="comments" class="tab-pane">
+            <section class="panel">
+              <div class="panel-heading">
+                <div class="pull-left">Comments</div>
+                <div class="widget-icons pull-right">
+                  <a href="#" onclick="document.getElementById('commentBody').style.display='none'" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                  <a href="#" onclick="document.getElementById('commentBody').style.display='block'" class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+                </div>
+              </div>
+              <div class="panel-body" id="commentBody">
+                <div class="padd scroll" style="display:inline-block;width:100%;height:250px;overflow-y:scroll;" id="scrollDiv">
+                  <ul class="chats" id="chats">
+
+                    <%if(typeof projRequestInfo != 'undefined'){
+                      projRequestInfo.comments.forEach( (item, idx) => { %>
+                      <%if(item.sender_username != locals.user){%>
+                      <!-- other people's messages-->
+                    <li class="by-me">
+                      <!-- Use the class "pull-left" in avatar -->
+                      <div class="avatar pull-left">
+                        <img src="/img/user-blue-mini.jpg" alt="" />
+                      </div>
+                      <div class="chat-content">
+                        <!-- In meta area, first include "name" and then "time" -->
+                        <div class="chat-meta">
+                          <%=item.sender_displayName%> <span class="pull-right"><%=item.sent_at%></span>
+                        </div>
+                        <%=item.message%>
+                        <div class="clearfix"></div>
+                      </div>
+                    </li>
+                    <%}else{%>
+                    <!-- your own messages-->
+                    <li class="by-other">
+                      <!-- Use the class "pull-right" in avatar -->
+                      <div class="avatar pull-right">
+                        <img src="/img/user-orange-mini.jpg" alt="" />
+                      </div>
+
+                      <div class="chat-content">
+                        <!-- In the chat meta, first include "time" then "name" -->
+                        <div class="chat-meta">
+                          <%=item.sender_displayName%> <span class="pull-right"><%=item.sent_at%></span>
+                        </div>
+                        <%=item.message%>
+                        <div class="clearfix"></div>
+                      </div>
+                    </li>
+                    <%}%>
+                    <%})}%>
+                  </ul>
+                </div>
+                <!-- Widget footer -->
+                <div class="widget-foot">
+                  <form class="form-inline" id="commentBox" method="POST">
+                    <div class="form-group">
+                      <input type="text" class="form-control" size="200" placeholder="Type your message here..."
+                        id="mycomment" name="mycomment" />
+                    </div>
+                    <button type="submit" class="btn btn-info" name="sendMessage" id="sendMessage"><i
+                        class="fa fa-send"></i> Send</button>
+                  </form>
+                  <%if (typeof messageStatus != 'undefined') {%>
+                  <%=messageStatus%>
+                  <%}%>
+                </div>
+                
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

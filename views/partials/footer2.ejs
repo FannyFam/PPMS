@@ -1,0 +1,77 @@
+<!-- javascripts -->
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<!-- nice scroll -->
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+<!-- jquery ui -->
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+
+<!--custom checkbox & radio-->
+<script type="/text/javascript" src="js/ga.js"></script>
+<!--custom switch-->
+<script src="/js/bootstrap-switch.js"></script>
+<!--custom tagsinput-->
+<script src="/js/jquery.tagsinput.js"></script>
+
+<!-- colorpicker -->
+
+<!-- bootstrap-wysiwyg -->
+<script src="/js/jquery.hotkeys.js"></script>
+<script src="/js/bootstrap-wysiwyg.js"></script>
+<script src="/js/bootstrap-wysiwyg-custom.js"></script>
+<script src="/js/moment.js"></script>
+<script src="/js/bootstrap-colorpicker.js"></script>
+<script src="/js/daterangepicker.js"></script>
+<script src="/js/bootstrap-datepicker.js"></script>
+
+
+<!-- custom form component script for this page-->
+<script src="/js/form-component.js"></script>
+<!-- custome script for all page -->
+<script src="/js/scripts.js"></script>
+<!-- custom script -->
+<script src="/js_custom/proj_request_tables.js"></script>
+
+
+
+<!-- Using AJAX to post comments to Node Express server. -->
+<!-- Concurrently, update the messages in HTML -->
+<script>
+  $("#commentBox").submit(function (e) {
+    e.preventDefault(); //prevent from opening the URL
+    $.ajax({
+      url: "/ppms/post_comment", //route in app.js
+      type: "POST", //method=post
+      data: { //message data to be stored in db
+        'sender_username': '<%=locals.user%>',
+        'sender_displayName': '<%=locals.displayName%>',
+        'message': $("#mycomment").val(), //document.getElementByID("mycomment").value
+        'projReqCode': $("#projReqCode").val() // document.getElementByID("projReqCode").value
+      },
+      success: function (data) {
+        //append the new message to the comment box
+        $("#chats").append("<li class='by-other'>" +
+          "<div class='avatar pull-right'>" +
+          "  <img src='/img/user-orange-mini.jpg' alt='' />" +
+          "</div>" +
+          "<div class='chat-content'> " +
+          "  <div class='chat-meta'>" +
+          "    <%=locals.user%> <span class='pull-right'>Just Now</span>" +
+          "  </div>" + $("#mycomment").val() +
+          "  <div class='clearfix'></div>" +
+          "</div>" +
+          "</li>  ");
+        $("#mycomment").val(""); //clear the textbox
+
+        var elem = document.getElementById('scrollDiv');
+        elem.scrollTop = elem.scrollHeight;
+      }
+    });
+  });    
+</script>
+
+</body>
+
+</html>

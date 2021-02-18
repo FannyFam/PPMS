@@ -1,7 +1,7 @@
 {
-  "name": "projectm",
+  "name": "ppm2",
   "version": "1.0.0",
-  "description": "Project 05",
+  "description": "Project 04",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,18 +10,25 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "crypto-js": "^4.0.0",
+    "date-format": "^3.0.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.9.2",
+    "feather-icons": "^4.28.0",
     "lodash": "^4.17.20",
+    "mailgun-js": "^0.22.0",
     "method-override": "^3.0.0",
+    "moment": "^2.29.1",
     "mongoose": "^5.11.13",
     "nodemailer": "^6.4.17",
     "nodemailer-mailgun-transport": "^2.0.2",
+    "nodemon": "^2.0.7",
+    "qs": "^6.9.6",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

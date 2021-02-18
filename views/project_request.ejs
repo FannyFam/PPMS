@@ -1,0 +1,1557 @@
+<!--project request view-->
+
+<%- include('partials/header'); %>
+<%- include('partials/sidebar'); %>
+
+<!--main content start-->
+<section id="main-content">
+  <section class="wrapper">
+    <!--overview start-->
+    <div class="row">
+      <div class="col-lg-12">
+        <!--if project request info exist in DB, show project request name - 14 Feb -->
+        <h3 class="page-header"><i class="fa fa-cogs"></i> Project Request
+          <%if(typeof projRequestInfo!='undefined'){%>
+          : <%=projRequestInfo.projReqname%>
+          <%}%>
+            </h3>
+            <ol class="breadcrumb">
+              <li><i class="fa fa-home"></i><a href="/ppms">Home</a></li>
+              <li><i class="fa fa-cogs"></i>Demand Management</li>
+              <li><i class="fa fa-cogs"></i>Project Request</li>
+            </ol>
+          </div>
+        </div>
+
+        <!--if error or success message exist, display - 14 Feb -->
+        <%- include('partials/alert_messages'); %>
+
+          <!--if project request info exist in DB, execute project_request_overview partial, pass data to the partial - 14 Feb -->
+          <%if(typeof projRequestInfo!='undefined'){%>
+          <%- include('partials/project_request_overview', {projRequestInfo:projRequestInfo});%>
+          <%}%>        
+        
+          <!-- Turn off auto complete to avoid any data error captured on browser. - 14 Feb -->
+          <!-- action : where the form-data should be sent and where it will be processsed when the form is submitted - 14 Feb -->
+  
+              <%if(typeof projRequestInfo!='undefined'){%>
+          <form autocomplete="off" class="form-horizontal" action="/ppms/update_proj_req" method="POST"
+            onsubmit="return prepareSubmit();">
+            <%}else{%>
+            <form autocomplete="off" class="form-horizontal" action="/ppms/create_proj_req" method="POST"
+              onsubmit="return prepareSubmit();">
+              <%}%>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">            
+                  <!-- Save Drfat and Submit button - 14 Feb -->      
+                  <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                  <!-- 15 Feb Draft button comment for version 2
+                    <button type="button" class="btn btn-warning pull-right">Save Draft</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <section class="panel panel-success">
+                <header class="panel-heading">
+                <!-- Save Drfat and Submit button  14 Feb -->    
+                <div class="pull-left">Information</div>
+                  <div class="widget-icons pull-right">
+                    <a href="#" onclick="document.getElementById('projInfoBody').style.display='none'" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                    <a href="#" onclick="document.getElementById('projInfoBody').style.display='block'" class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+                  </div>
+                </header>
+                
+                <div class="panel-body" id="projInfoBody">
+                  <div class="form-group">
+                    <label for="projReqname" class="col-lg-3 control-label">Project Request Name</label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" id="projReqname" name="projReqname"
+                        placeholder="Project Request Name" required>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="bizOrgGrp" class="col-lg-3 control-label">Business Org Group</label>
+                    <div class="col-lg-5">  
+                      <!-- Execute () when a user changes the selected option of the <select> element -->
+                      <select class="form-control" id="bizOrgGrp" name="bizOrgGrp" onchange="updateBizOrgGrpSub1()">
+                        <option value="" selected>--- Choose ---</option>
+                      </select>                  
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bizOrgGrpSub1" class="col-lg-3 control-label">Business Org Sub-Group L1</label>
+                    <div class="col-lg-5">
+                      <select class="form-control" id="bizOrgGrpSub1" name="bizOrgGrpSub1" onchange="updateBizOrgGrpSub2()">
+                        <option value="" selected>--- Choose ---</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bizOrgGrpSub2" class="col-lg-3 control-label">Business Org Sub-Group L2</label>
+                    <div class="col-lg-5">
+                      <select class="form-control" id="bizOrgGrpSub2" name="bizOrgGrpSub2" onchange="updateBizOrgGrpSub3()">
+                        <option value="" selected>--- Choose ---</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bizOrgGrpSub3" class="col-lg-3 control-label">Business Org Sub-Group L3</label>
+                    <div class="col-lg-5">
+                      <select class="form-control" id="bizOrgGrpSub3" name="bizOrgGrpSub3">
+                        <option value="" selected>--- Choose ---</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bizOrgFamily" class="col-lg-3 control-label">Business Org Family</label>
+                    <div class="col-lg-5">
+                      <select class="form-control" id="bizOrgFamily" name="bizOrgFamily" onchange="updateBizOrgGrpFamilySub1()">
+                        <option value="" selected>--- Choose ---</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bizOrgFamilySub1" class="col-lg-3 control-label">Business Org Family L1</label>
+                    <div class="col-lg-5">
+                      <select class="form-control" id="bizOrgFamilySub1" name="bizOrgFamilySub1">
+                        <option value="" selected>--- Choose ---</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="financialYear" class="col-lg-3 control-label">FY</label>
+                    <div class="col-lg-5">
+                      <select class="form-control" id="financialYear" name="financialYear">
+                        <option value="" selected>--- Choose ---</option>
+                        <option value="FY20">FY20</option>
+                        <option value="FY21">FY21</option>
+                        <option value="FY22">FY22</option>
+                        <option value="FY23">FY23</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="workType" class="col-lg-3 control-label">Work-Type</label>
+                    <div class="col-lg-5">
+                      <select class="form-control" id="workType" name="workType">
+                        <option value="" selected>--- Choose ---</option>
+                        <option value="New Project">New Project</option>
+                        <option value="New Change Request">New Change Request</option>
+                        <option value="New KTLO">New KTLO</option>
+                        <option value="New Adhoc Demand">New Adhoc Demand</option>
+                        <option value="On-going Project">On-going Project</option>
+                        <option value="On-going Change Request">On-going Change Request</option>
+                        <option value="On-going KTLO">On-going KTLO</option>
+                        <option value="On-going Adhoc Demand">On-going Adhoc Demand</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- readonly cannot be overwritten by user. read only -- 14 Feb -->
+                  <!-- Outputs the value into the template (HTML escaped) -- 14 Feb -->
+                  <div class="form-group">
+                    <label for="projOwner" class="col-lg-3 control-label">Owner</label>
+                    <div class="col-lg-5">
+                      <input type="text" class="form-control" id="projOwner" name="projOwner" readonly
+                        value="<%=locals.displayName%>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="projReqDate" class="col-lg-3 control-label">Project Request Date</label>
+      <div class="col-lg-3">
+        <input id="projReqDate" name="projReqDate" type="text" placeholder="DD-MM-YYYY" size="16" class="form-control"
+          required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="expStartDate" class="col-lg-3 control-label">Expected Start Date</label>
+      <div class="col-lg-3">
+        <input id="expStartDate" name="expStartDate" type="text" placeholder="DD-MM-YYYY" size="16" class="form-control"
+          required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="expTGLDate" class="col-lg-3 control-label">Expected Target Go Live Date</label>
+      <div class="col-lg-3">
+        <input id="expTGLDate" name="expTGLDate" type="text" placeholder="DD-MM-YYYY" size="16" class="form-control"
+          required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="expTEDate" class="col-lg-3 control-label">Expected Target End Date</label>
+      <div class="col-lg-3">
+        <input id="expTEDate" name="expTEDate" type="text" placeholder="DD-MM-YYYY" size="16" class="form-control"
+          required>
+      </div>
+    </div>
+
+    <!-- projReqCode = from ProjectRequestConfroller.js -- 14 Feb -->
+    <div class="form-group">
+      <label for="projReqCode" class="col-lg-3 control-label">Project Request Code</label>
+      <div class="col-lg-5">
+        <input type="text" class="form-control" id="projReqCode" name="projReqCode" readonly value="<%=projReqCode%>">
+      </div>
+    </div>
+
+    </div>
+  </section>
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="panel panel-success">
+        <header class="panel-heading">
+          <div class="pull-left">Status</div>
+          <div class="widget-icons pull-right">
+            <a href="#" onclick="document.getElementById('statusBody').style.display='none'" class="wminimize"><i
+                class="fa fa-chevron-up"></i></a>
+            <a href="#" onclick="document.getElementById('statusBody').style.display='block'" class="wmaximize"><i
+                class="fa fa-chevron-down"></i></a>
+          </div>
+        </header>
+
+        <div class="panel-body" id="statusBody">
+
+          <div class="form-group">
+            <label for="projStatus" class="col-lg-3 control-label">Status</label>
+            <div class="col-lg-5">
+              <select class="form-control" id="projStatus" name="projStatus">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Drafted">Drafted</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="Postponed">Postponed</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+          <!-- 15 Feb Add : -->
+          <div class="form-group">
+            <label for="actualStep" class="col-lg-3 control-label"><b>Actual Step:</b></label>
+            <div class="col-lg-5">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepDraft" class="col-lg-3 control-label">PR-Draft</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepDraft" name="stepDraft"
+                onchange="setSystemDate(this, 'stepDraftDate')">
+                <!-- setSystemDate : go to demand.js -- 14 Feb -->
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepDraftDate" name="stepDraftDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepCreated" class="col-lg-3 control-label">PR-Created</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepCreate" name="stepCreate"
+                onchange="setSystemDate(this, 'stepCreateDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepCreateDate" name="stepCreateDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepValid" class="col-lg-3 control-label">PR-Valid</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepValid" name="stepValid"
+                onchange="setSystemDate(this, 'stepValidDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepValidDate" name="stepValidDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepPreWork" class="col-lg-3 control-label">PR-PreWork</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepPreWork" name="stepPreWork"
+                onchange="setSystemDate(this, 'stepPreWorkDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepPreWorkDate" name="stepPreWorkDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepQuote" class="col-lg-3 control-label">PR-Quote</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepQuote" name="stepQuote"
+                onchange="setSystemDate(this, 'stepQuoteDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepQuoteDate" name="stepQuoteDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepSRB" class="col-lg-3 control-label">PR-SRB</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepSRB" name="stepSRB" onchange="setSystemDate(this, 'stepSRBDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepSRBDate" name="stepSRBDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepCosted" class="col-lg-3 control-label">PR-Costed</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepCosted" name="stepCosted"
+                onchange="setSystemDate(this, 'stepCostedDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepCostedDate" name="stepCostedDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepScore" class="col-lg-3 control-label">PR-Score</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepScore" name="stepScore"
+                onchange="setSystemDate(this, 'stepScoreDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepScoreDate" name="stepScoreDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepSelect" class="col-lg-3 control-label">PR-Select</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepSelect" name="stepSelect"
+                onchange="setSystemDate(this, 'stepSelectDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepSelectDate" name="stepSelectDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stepOpen" class="col-lg-3 control-label">PR-Open</label>
+            <div class="col-lg-3">
+              <select class="form-control" id="stepOpen" name="stepOpen" onchange="setSystemDate(this, 'stepOpenDate')">
+                <option value="" selected>--- Choose ---</option>
+                <option value="Started">Started</option>
+                <option value="Completed">Completed</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+              <input id="stepOpenDate" name="stepOpenDate" type="text" placeholder="DD-MM-YYYY" size="16" readonly
+                class="form-control">
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="panel panel-success">
+        <header class="panel-heading">
+
+          <div class="pull-left">Description</div>
+          <div class="widget-icons pull-right">
+            <a href="#descBody" onclick="document.getElementById('descBody').style.display='none'" class="wminimize"><i
+                class="fa fa-chevron-up"></i></a>
+            <a href="#descBody" onclick="document.getElementById('descBody').style.display='block'" class="wmaximize"><i
+                class="fa fa-chevron-down"></i></a>
+          </div>
+
+        </header>
+
+        <div class="panel-body" id="descBody">
+          <div class="form-group">
+            <label for="projDesc" class="col-lg-3 control-label">Description</label>
+            <div class="col-lg-9">
+              <input type="text" class="form-control" id="projDesc" name="projDesc" value="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="projSummary" class="col-lg-3 control-label">Objective Summary</label>
+            <div class="col-lg-9">
+              <input type="text" class="form-control" id="projSummary" name="projSummary" value="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="projRationale" class="col-lg-3 control-label">Business / Technical Rationale</label>
+            <div class="col-lg-9">
+              <input type="text" class="form-control" id="projRationale" name="projRationale" value="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="projRemarks" class="col-lg-3 control-label">Remarks</label>
+            <div class="col-lg-9">
+              <input type="text" class="form-control" id="projRemarks" name="projRemarks" value="">
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="panel panel-success">
+        <header class="panel-heading">
+          <div class="pull-left">Project Classification</div>
+          <div class="widget-icons pull-right">
+            <a href="#projClassBody" onclick="document.getElementById('projClassBody').style.display='none'"
+              class="wminimize"><i class="fa fa-chevron-up"></i></a>
+            <a href="#projClassBody" onclick="document.getElementById('projClassBody').style.display='block'"
+              class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+          </div>
+        </header>
+
+        <div class="panel-body" id="projClassBody">
+
+          <div class="form-group">
+            <label for="bizAlign" class="col-lg-3 control-label">Business Alignment</label>
+            <div class="col-lg-5">
+              <select class="form-control" id="bizAlign" name="bizAlign">
+                <option value="" selected>--- Choose ---</option>
+                <option value="P1-Population Profiling">P1-Population Profiling</option>
+                <option value="P2-Population Enablement">P2-Population Enablement</option>
+                <option value="P3-Prevention & Continuity of care">P3-Prevention & Continuity of care</option>
+                <option value="P4-Provider Care & Operations Excellence">P4-Provider Care & Operations
+                  Excellence</option>
+                <option value="P5-Healthcare Financial Excellence">P5-Healthcare Financial Excellence</option>
+                <option value="P6-Policy & Public Health Workbench">P6-Policy & Public Health Workbench</option>
+                <option value="P7-IT Foundation & Resiliency">P7-IT Foundation & Resiliency</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bizStratAreas" class="col-lg-3 control-label">Business Strategic Areas</label>
+            <div class="col-lg-5">
+              <select class="form-control" id="bizStratAreas" name="bizStratAreas">
+                <option value="" selected>--- Choose ---</option>
+                <option value="1 - Policy or Statutory requirements">
+                  1 - Policy or Statutory requirements
+                </option>
+                <option value="2 - National Programmes">2 - National Programmes</option>
+                <option value="3 - New Facilities">3 - New Facilities</option>
+                <option
+                  value="4 - Business contunity including security and technology refresh for planned obsolescence	">4 -
+                  Business contunity including security and technology refresh for planned obsolescence </option>
+                <option value="5 - Innovation">5 - Innovation</option>
+                <option value="6 - Productivity and Cost containment projects">6 - Productivity and Cost
+                  containment projects</option>
+                <option value="7 - Others (Please specify)">7 - Others (Please specify)</option>
+              </select>
+            </div>
+            <div class="col-lg-5">
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bizITStratAreas" class="col-lg-3 control-label">IT Strategic Areas</label>
+            <div class="col-lg-5">
+              <select class="form-control" id="bizITStratAreas" name="bizITStratAreas">
+                <option value="" selected>--- Choose ---</option>
+                <option value="1 - Security">1 - Security</option>
+                <option value="2 - Resiliency">2 - Resiliency</option>
+                <option value="3 - New Capabilities">3 - New Capabilities</option>
+                <option value="4 - New Facilities">4 - New Facilities</option>
+                <option value="5 - System Enhancement">5 - System Enhancement</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- add option 15 Feb-->
+          <div class="form-group">
+            <label for="bizTechDomain" class="col-lg-3 control-label">Business / Technical Domain</label>
+            <div class="col-lg-5">
+              <select class="form-control" id="bizTechDomain" name="bizTechDomain">
+                <option value="" selected>--- Choose ---</option>
+                <!-- Change options - 14 Feb -->
+                <option value="Electronic Health Record">Electronic Health Record</option>
+                <option value="Patient Systems">Patient Systems</option>
+                <option value="Ancillary Systems">Ancillary Systems</option>
+                <option value="Healthcare Analytics">Healthcare Analytics</option>
+                <option value="Medical Device">Medical Device</option>
+                <option value="RPA">RPA</option>
+                <option value="AI">AI</option>
+                <option value="AI">Mobile Apps</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="systemID" class="col-lg-3 control-label">Type of Technology System ID</label>
+            <div class="col-lg-5">
+              <select class="form-control" id="systemID" name="systemID">
+                <option value="" selected>--- Choose ---</option>
+                <option value="S001 GPConnect">S001 GPConnect</option>
+                <option value="S002 NEHR">S002 NEHR</option>
+                <option value="S003 EPIC">S003 EPIC</option>
+                <option value="S004 Allscripts Sunrise Clinical Manager">S004 Allscripts Sunrise Clinical Manager
+                </option>
+                <option value="S005 SAP">S005 SAP</option>
+                <option value="S006 eHINTS Electronic Health lntelligence System">S006 eHINTS Electronic Health
+                  lntelligence System</option>
+                <option value="S007 1Q1P">S007 1Q1P</option>
+                <option value="S008 CLMM">S008 CLMM</option>
+                <option value="S009 MMM Multi-Dose Medication Management">S009 MMM Multi-Dose Medication Management
+                </option>
+                <option value="S010 OPAS Outpatient Pharmacy Automation System">S010 OPAS Outpatient Pharmacy Automation
+                  System</option>
+                <option value="S011 KKH U-PAL Urgent Paediatric Advice Line Chatbot">S011 KKH U-PAL Urgent Paediatric
+                  Advice Line Chatbot</option>
+                <option value="S012 BMS Bed Management System">S012 BMS Bed Management System</option>
+                <option value="S100 UiPath">S100 UiPath</option>
+                <option value="S101 Automation Anywhere">S101 Automation Anywhere</option>
+                <option value="S200 Success Factor">S200 Success Factor</option>
+                <option value="S301 Healh Buddy">S300 HealthHub</option>
+                <!-- add options - 14 Feb -->
+                <option value="S301 Healh Buddy">S301 HealthBuddy</option>
+                <option value="S302 In-Vitro Fertilisation (IVF)">S302 In-Vitro Fertilisation (IVF)</option>
+                <option value="S303 AsthmaCare Buddy">S303 AsthmaCare Buddy</option>
+                <option value="S304 Diabetes Pal">S304 Diabetes Pal</option>
+                <option value="S304 Diabetes Pal">Others</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="leadProgram" class="col-lg-3 control-label">Lead Program</label>
+            <div class="col-lg-5">
+              <!-- 14 Feb -->
+              <select class="form-control" id="leadProgram" name="leadProgram">
+                <option value="" selected>--- Choose ---</option>
+                <option value="COVID-19 Vaccination Operations">COVID-19 Vaccination Operations</option>
+                <option value="Sunrise Clinical Manager SCM">Sunrise Clinical Manager SCM</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="programDirector" class="col-lg-3 control-label">Program Director</label>
+            <div class="col-lg-5">
+              <input type='text' class='form-control font-weight-light' name='programDirector' id='programDirector'>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="projSponsor" class="col-lg-3 control-label">Project Sponsor</label>
+            <div class="col-lg-5">
+              <input type='text' class='form-control font-weight-light' name='projSponsor' id='projSponsor'>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <section class="panel panel-success">
+        <header class="panel-heading">
+
+          <div class="pull-left">Scoring</div>
+          <div class="widget-icons pull-right">
+            <a href="#projScoring" onclick="document.getElementById('projScoring').style.display='none'"
+              class="wminimize"><i class="fa fa-chevron-up"></i></a>
+            <a href="#projScoring" onclick="document.getElementById('projScoring').style.display='block'"
+              class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+          </div>
+        </header>
+
+        <div class="panel-body" id="projScoring">
+          <div class="form-group">
+            <label for="scoringPriority" class="col-lg-3 control-label">Priority</label>
+            <div class="col-lg-5">
+              <select class="form-control" id="scoringPriority" name="scoringPriority">
+                <option value="" selected>--- Choose ---</option>
+                <option value="1-Statutory Requirement">1-Statutory Requirement</option>
+                <option value="2-Must Do">2-Must Do</option>
+                <option value="3-High">3-High</option>
+                <option value="4-Medium">4-Medium</option>
+                <option value="5-Low">5-Low</option>
+                <option value="6-Duplicate">6-Duplicate</option>
+                <option value="7-Defer">7-Defer</option>
+                <option value="8-Drop">8-Drop</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+  <div class="row" id="proj_cf">
+    <div class="col-lg-12">
+      <section class="panel panel-success">
+        <header class="panel-heading">
+
+          <div class="pull-left">Cost Forecast</div>
+          <div class="widget-icons pull-right">
+            <a href="#costFCBody" onclick="document.getElementById('costFCBody').style.display='none'"
+              class="wminimize"><i class="fa fa-chevron-up"></i></a>
+            <a href="#costFCBody" onclick="document.getElementById('costFCBody').style.display='block'"
+              class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+          </div>
+        </header>
+        <div class="panel-body" id="costFCBody">
+          <div class="form-group">
+            <label for="cfCurrency" class="col-lg-3 control-label">Currency</label>
+            <div class="col-lg-5">
+              <!-- add options -- 14 Feb -->
+              <select class="form-control" id="cfCurrency" name="cfCurrency">
+                <option value="">--- Choose ---</option>
+                <option value="SGD" selected>SGD</option>
+                <option value="AUD">AUD</option>
+                <option value="EUR">EUR</option>
+                <option value="HKD">HKD</option>
+                <option value="IDR">IDR</option>
+                <option value="INR">INR</option>
+                <option value="JPY">JPY</option>
+                <option value="KRW">KRW</option>
+                <option value="MYR">MYR</option>
+                <option value="NZD">NZD</option>
+                <option value="PHP">PHP</option>
+                <option value="THB">THB</option>
+                <option value="TWD">TWD</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+          </div>
+
+          <table class="table table-striped table-advance table-hover" id="projCostForecast" name="projCostForecast">
+            <tbody>
+              <!-- tr = row, th header cell, td data cell. Change % -- 14 Feb -->
+              <tr>
+                <th style="width: 12%">Description</th>
+                <th style="width: 10%">Total Planned IT Cost</th>
+                <th style="width: 10%">Total Cashout CAPEX</th>
+                <th style="width: 10%">Total Cashout OPEX</th>
+                <th style="width: 10%">Total Internal CAPEX</th>
+                <th style="width: 10%">Total Internal OPEX</th>
+                <th style="width: 10%">Total Person Day</th>
+                <!-- 14 Feb -->
+                <!-- <th style="width: 10%">Action</th> -->
+              </tr>
+              <tr>
+                <td>
+                  <select class="form-control" id="cfDescription" name="cfDescription">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="1-Initial Cost Forecast">1-Initial Cost Forecast</option>
+                    <option value="2-Proposed Cost Forecast/Quote">2-Proposed Cost Forecast/Quote</option>
+                    <option value="3-Approved Cost Forecast">3-Approved Cost Forecast</option>
+                  </select>
+                </td>
+
+                <!-- updateCostsForecastTotals proj_request_tables.js - 14 Feb -->
+                <td><input type='text' class='form-control font-weight-light text-right' name='cfPlanITCost'
+                    id='cfPlanITCost' placeholder="0" onblur="updateCostsForecastTotals()">
+                </td>
+
+                <td><input type='text' class='form-control font-weight-light text-right' name='cfCOCAPEX' id='cfCOCAPEX'
+                    placeholder="0" placeholder="0" onblur="updateCostsForecastTotals()">
+                </td>
+
+                <td><input type='text' class='form-control font-weight-light text-right' name='cfCOOPEX' id='cfCOOPEX'
+                    placeholder="0" onblur="updateCostsForecastTotals()">
+                </td>
+
+                <td><input type='text' class='form-control font-weight-light text-right' name='cfICAPEX' id='cfICAPEX'
+                    placeholder="0" onblur="updateCostsForecastTotals()">
+                </td>
+
+                <td><input type='text' class='form-control font-weight-light text-right' name='cfIOPEX' id='cfIOPEX'
+                    placeholder="0" onblur="updateCostsForecastTotals()">
+                </td>
+
+                <td><input type='text' class='form-control font-weight-light text-right' name='cfPDays' id='cfPDays'
+                    placeholder="0" onblur="updateCostsForecastTotals()">
+                </td>
+
+                <!-- 14 Feb -->
+                <!-- <td>
+                  <div class="btn-group">
+                    <a class="btn btn-success" href="#proj_cf" onclick="addRow('projCostForecast')"><i
+                        class="icon_plus_alt2"></i></a>
+                  </div>
+                </td> -->
+
+              </tr>
+            </tbody>
+          </table>
+
+          <!--  hidden : data that cannot be seen or modified by users when a form is submitted - 14 Feb -->
+          <input type="hidden" name="projCostForecastData" id="projCostForecastData" />
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+  <!-- Funding Entities -- 14 Feb -->
+
+  <div class="row" id="proj_fe">
+    <div class="col-lg-12">
+      <section class="panel panel-success">
+        <header class="panel-heading">
+          <div class="pull-left">Funding Entities</div>
+          <div class="widget-icons pull-right">
+            <a href="#fundEntBody" onclick="document.getElementById('fundEntBody').style.display='none'"
+              class="wminimize"><i class="fa fa-chevron-up"></i></a>
+            <a href="#fundEntBody" onclick="document.getElementById('fundEntBody').style.display='block'"
+              class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+          </div>
+        </header>
+
+        <!-- Table & Header - 14 Feb -->
+        <div class="panel-body" id="fundEntBody">
+          <table class="table table-striped table-advance table-hover" id="projFundEntities" name="projFundEntities">
+            <tbody>
+              <tr>
+                <th style="width: 10%">Funding Source</th>
+                <th style="width: 10%">Funding Scope</th>
+                <th style="width: 10%">Funding Entity</th>
+                <th style="width: 10%">Business Org Group</th>
+                <th style="width: 10%">Budget Year</th>
+                <th style="width: 10%">Budget Amount</th>
+                <th style="width: 10%">Action</th>
+              </tr>
+
+              <!-- if exist in db -- 14 Feb -->
+              <%if(typeof projRequestInfo != 'undefined'){
+                      projRequestInfo.projFundEntities[0].projFundEntitiesDetails.forEach( (item, idx) => { %>
+              <tr>
+                <td>
+                  <select class="form-control" id="feFundSrc_<%=idx%>" name="feFundSrc_<%=idx%>">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Entity/Institution Funded">Entity/Institution Funded</option>
+                    <option value="Funded">Funded</option>
+                    <option value="Seeking Fund">Seeking Fund</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- change drop-down value -- 14 Feb -->
+                  <select class="form-control" id="feFundScope_<%=idx%>" name="feFundScope_<%=idx%>">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Entity/Institution Specific">Entity/Institution Specific</option>
+                    <option value="Country">Country</option>
+                    <option value="Region/Cluster">Region/Cluster</option>
+                    <option value="Global">Global</option>
+                  </select>
+                </td>
+
+                <!-- added - 14 Feb  -->
+                <td>
+                  <select class="form-control" id="feEntity_<%=idx%>" name="feEntity_<%=idx%>">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="FE-0001 SGH">FE-0001 SGH</option>
+                    <option value="FE-0002 CGH">FE-0002 CGH</option>
+                    <option value="FE-0003 KKH">FE-0003 KKH</option>
+                    <option value="FE-0004 SKH">FE-0004 SKH</option>
+                    <option value="FE-0005 NHC">FE-0005 NHC</option>
+                    <option value="FE-0006 SNEC">FE-0006 SNEC</option>
+                    <option value="FE-0007 NCC">FE-0007 NCC</option>
+                    <option value="FE-0008 NDC">FE-0008 NDC</option>
+                    <option value="FE-0009 Polyclinic">FE-0009 Polyclinic</option>
+                    <option value="FE-0010 Others">FE-0010 Others</option>
+                  </select>
+                </td>
+
+                <td>
+                  <select class="form-control" id="feBizOrgGrp_<%=idx%>" name="feBizOrgGrp_<%=idx%>">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="R and D">R and D</option>
+                    <option value="Global Supply Chain">Global Supply Chain</option>
+                    <option value="Technology Services">Technology Services</option>
+                  </select>
+                </td>
+
+                <td>
+                  <select class="form-control" id="feBudgetYr_<%=idx%>" name="feBudgetYr_<%=idx%>">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="FY20">FY20</option>
+                    <option value="FY21">FY21</option>
+                    <option value="FY22">FY22</option>
+                    <option value="FY23">FY23</option>
+                  </select>
+                </td>
+
+                <td><input type='text' class='form-control font-weight-light text-right' name='feBudgetAmt'
+                    id='feBudgetAmt' placeholder="0" value="<%=item.feBudgetAmt%>" onblur='updateBudgetAmtTotals()'>
+                </td>
+
+                <td>
+                  <div class="btn-group">
+                    <%if(idx == 0){%>
+                    <a class="btn btn-success" href="#proj_fe" onclick="addRow('projFundEntities')"><i
+                        class="icon_plus_alt2"></i></a>
+                    <%}else{%>
+                    <a class="btn btn-success" href="#proj_fe" onclick="addRow('projFundEntities')"><i
+                        class="icon_plus_alt2"></i></a>
+                    <a class="btn btn-danger" href="#proj_fe" onclick="deleteRow(this,'projFundEntities')"><i
+                        class="icon_close_alt2"></i></a>
+                    <%}%>
+                            </div>
+                          </td>
+                        </tr>
+                    <%})%>
+                    <%}else{%>
+              <tr>
+                <td>
+                  <select class="form-control" id="feFundSrc" name="feFundSrc">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Entity/Institution Funded">Entity/Institution Funded</option>
+                    <option value="Funded">Funded</option>
+                    <option value="Seeking Fund">Seeking Fund</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- Correct value - 14 Feb -->
+                  <select class="form-control" id="feFundScope" name="feFundScope">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Entity/Institution Specific">Entity/Institution Specific</option>
+                    <option value="Country">Country</option>
+                    <option value="Region/Cluster">Region/Cluster</option>
+                    <option value="Global">Global</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- added - 14 Feb  -->
+                  <select class="form-control" id="feEntity" name="feEntity">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="FE-0001 SGH">FE-0001 SGH</option>
+                    <option value="FE-0002 CGH">FE-0002 CGH</option>
+                    <option value="FE-0003 KKH">FE-0003 KKH</option>
+                    <option value="FE-0004 SKH">FE-0004 SKH</option>
+                    <option value="FE-0005 NHC">FE-0005 NHC</option>
+                    <option value="FE-0006 SNEC">FE-0006 SNEC</option>
+                    <option value="FE-0007 NCC">FE-0007 NCC</option>
+                    <option value="FE-0008 NDC">FE-0008 NDC</option>
+                    <option value="FE-0009 Polyclinic">FE-0009 Polyclinic</option>
+                    <option value="FE-0010 Others">FE-0010 Others</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- Correct value - 14 Feb -->
+                  <select class="form-control" id="feBizOrgGrp" name="feBizOrgGrp">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="R and D">R and D</option>
+                    <option value="Global Supply Chain">Global Supply Chain</option>
+                    <option value="Technology Services">Technology Services</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="form-control" id="feBudgetYr" name="feBudgetYr">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="FY20">FY20</option>
+                    <option value="FY21">FY21</option>
+                    <option value="FY22">FY22</option>
+                    <option value="FY23">FY23</option>
+                  </select>
+                </td>
+                <td><input type='text' class='form-control font-weight-light text-right' name='feBudgetAmt'
+                    id='feBudgetAmt' placeholder="0" onblur='updateBudgetAmtTotals()'>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn btn-success" href="#proj_fe" onclick="addRow('projFundEntities')"><i
+                        class="icon_plus_alt2"></i></a>
+                  </div>
+                </td>
+              </tr>
+              <%}%>                    
+
+                  </tbody>                  
+                  </table>
+                  <br>
+                  <table class="table table-striped table-advance table-hover" id="projFundEntitiesSum"
+                  name="projFundEntitiesSum">
+                  <tbody>
+                    <tr>
+                      <td style="width: 10%">&nbsp;</td>
+                      <td style="width: 10%">Total</td>
+                      <td style="width: 10%">&nbsp;</td>
+                      <td style="width: 10%">&nbsp;</td>
+                      <td style="width: 10%">&nbsp;</td>
+                      <td style="width: 10%"><input type='text' class='form-control font-weight-light text-right' name='feBudgetAmtSum' id='feBudgetAmtSum' placeholder="0"></td>
+                      <td style="width: 10%">&nbsp;</td>
+                    </tr>
+                  </tbody>
+                  </table>
+
+                  <input type="hidden" name="projFundEntitiesData" id="projFundEntitiesData" />
+                </div>
+              </section>
+            </div>
+          </div>
+
+<!-- Resource - 14 Feb -->
+          <div class="row" id="proj_res">
+            <div class="col-lg-12">
+              <section class="panel panel-success">
+                <header class="panel-heading">
+                  
+                  <div class="pull-left">Resources</div>
+                <div class="widget-icons pull-right">
+                  <a href="#resBody" onclick="document.getElementById('resBody').style.display='none'" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                  <a href="#resBody" onclick="document.getElementById('resBody').style.display='block'" class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+                </div>
+                </header>
+
+                <div class="panel-body" id="resBody">
+                  <table class="table table-striped table-advance table-hover" id="projResources"
+                  name="projResources">
+                  <tbody>
+                    <tr>
+                      <th style="width: 1%">SN</th>
+                      <th style="width: 10%">Type</th>
+                      <th style="width: 10%">Brief Description</th>
+                      <th style="width: 7%">Vendor</th>
+                      <th style="width: 10%">Cost Type</th>
+                      <th style="width: 5%">Person Day</th>
+                      <th style="width: 5%">Cost $</th>
+                      <th style="width: 4%">TP Key</th>
+                      <th style="width: 10%">Funding Entity</th>
+                      <th style="width: 6%">Start</th>
+                      <th style="width: 6%">End</th>
+                      <th style="width: 10%">Resource Type</th>
+                      <th style="width: 2%">Action</th>
+                    </tr>
+                  </tbody>
+
+                  <%if(typeof projRequestInfo != 'undefined'){
+                    projRequestInfo.projResources[0].projResourcesDetails.forEach( (item, idx) => { %>
+              <tr>
+                <td><%=idx+1%></td>
+                <td>
+                  <select class="form-control" id="resType_<%=idx%>" name="resType_<%=idx%>">
+
+                    <option value="">--- Choose ---</option>
+                    <option value="Internal">Internal</option>
+                    <option value="PO-Professional Service">PO-Professional Service</option>
+                    <option value="PO-Software">PO-Software</option>
+                    <option value="PO-Hardware">PO-Hardware</option>
+                    <option value="PO-Cloud hosting">PO-Cloud hosting</option>
+                    <option value="PO-SaaS">PO-SaaS</option>
+                    <option value="PO-PaaS">PO-PaaS</option>
+                    <option value="PO-Facilities">PO-Facilities</option>
+                    <option value="PO-Leased Telco Lines">PO-Leased Telco Lines</option>
+                    <option value="PO-Minor Asset/Services">PO-Minor Asset/Services</option>
+                    <option value="PO-Hardware-Opex">PO-Hardware-Opex</option>
+                    <option value="PO-Software-Opex">PO-Software-Opex</option>
+                    <option value="PO-Professional Service-Opex">PO-Professional Service-Opex</option>
+                  </select>
+                </td>
+                <td>
+                  <input type='text' class='form-control font-weight-light' name='resDescription' id='resDescription'
+                    value="<%=item.resDescription%>">
+                </td>
+                <td>
+                  <input type='text' class='form-control font-weight-light' name='resVendor' id='resVendor'
+                    value="<%=item.resVendor%>">
+                </td>
+                <td>
+                  <select class="form-control" id="resCostType_<%=idx%>" name="resCostType_<%=idx%>">
+                    <option value="">--- Choose ---</option>
+                    <option value="Cashout CAPEX">Cashout CAPEX</option>
+                    <option value="Cashout OPEX">Cashout OPEX</option>
+                    <option value="Internal CAPEX">Internal CAPEX</option>
+                    <option value="Internal OPEX">Internal OPEX</option>
+                  </select>
+                </td>
+                <td>
+                  <input type='text' class='form-control font-weight-light text-right' name='resPersonDay'
+                    id='resPersonDay' placeholder="0" onblur='updatePersonDaysTotals()' value="<%=item.resPersonDay%>">
+                </td>
+                <td>
+                  <input type='text' class='form-control font-weight-light text-right' name='resCost' id='resCost'
+                    placeholder="0" onblur='updateCostAmtTotals()' value="<%=item.resCost%>">
+                </td>
+                <td>
+                  <input type='text' class='form-control font-weight-light text-right' name='resTPKey' id='resTPKey'
+                    placeholder="0" value="<%=item.resTPKey%>">
+                </td>
+                <td>
+                  <!-- added - 14 Feb  -->
+                  <select class="form-control" id="resFundEntity_<%=idx%>" name="resFundEntity_<%=idx%>">
+                    <option value="">--- Choose ---</option>
+                    <option value="FE-0001 SGH">FE-0001 SGH</option>
+                    <option value="FE-0002 CGH">FE-0002 CGH</option>
+                    <option value="FE-0003 KKH">FE-0003 KKH</option>
+                    <option value="FE-0004 SKH">FE-0004 SKH</option>
+                    <option value="FE-0005 NHC">FE-0005 NHC</option>
+                    <option value="FE-0006 SNEC">FE-0006 SNEC</option>
+                    <option value="FE-0007 NCC">FE-0007 NCC</option>
+                    <option value="FE-0008 NDC">FE-0008 NDC</option>
+                    <option value="FE-0009 Polyclinic">FE-0009 Polyclinic</option>
+                    <option value="FE-0010 Others">FE-0010 Others</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- 14 Feb -->
+                  <select class="form-control" id="resStart_<%=idx%>" name="resStart_<%=idx%>">
+                    <option value="">--- Choose ---</option>
+                    <option value="Jan-21">Jan-21</option>
+                    <option value="Feb-21">Feb-21</option>
+                    <option value="Mar-21">Mar-21</option>
+                    <option value="Apr-21">Apr-21</option>
+                    <option value="May-21">May-21</option>
+                    <option value="Jun-21">Jun-21</option>
+                    <option value="Jul-21">Jul-21</option>
+                    <option value="Aug-21">Aug-21</option>
+                    <option value="Sep-21">Sep-21</option>
+                    <option value="Oct-21">Oct-21</option>
+                    <option value="Nov-21">Nov-21</option>
+                    <option value="Dec-21">Dec-21</option>
+                    <option value="Jan-22">Jan-22</option>
+                    <option value="Feb-22">Feb-22</option>
+                    <option value="Mar-22">Mar-22</option>
+                    <option value="Apr-22">Apr-22</option>
+                    <option value="May-22">May-22</option>
+                    <option value="Jun-22">Jun-22</option>
+                    <option value="Jul-22">Jul-22</option>
+                    <option value="Aug-22">Aug-22</option>
+                    <option value="Sep-22">Sep-22</option>
+                    <option value="Oct-22">Oct-22</option>
+                    <option value="Nov-22">Nov-22</option>
+                    <option value="Dec-22">Dec-22</option>
+                    <option value="Jan-23">Jan-23</option>
+                    <option value="Feb-23">Feb-23</option>
+                    <option value="Mar-23">Mar-23</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- 14 Feb -->
+                  <select class="form-control" id="resEnd_<%=idx%>" name="resEnd_<%=idx%>">
+                    <option value="">--- Choose ---</option>
+                    <option value="Jan-21">Jan-21</option>
+                    <option value="Feb-21">Feb-21</option>
+                    <option value="Mar-21">Mar-21</option>
+                    <option value="Apr-21">Apr-21</option>
+                    <option value="May-21">May-21</option>
+                    <option value="Jun-21">Jun-21</option>
+                    <option value="Jul-21">Jul-21</option>
+                    <option value="Aug-21">Aug-21</option>
+                    <option value="Sep-21">Sep-21</option>
+                    <option value="Oct-21">Oct-21</option>
+                    <option value="Nov-21">Nov-21</option>
+                    <option value="Dec-21">Dec-21</option>
+                    <option value="Jan-22">Jan-22</option>
+                    <option value="Feb-22">Feb-22</option>
+                    <option value="Mar-22">Mar-22</option>
+                    <option value="Apr-22">Apr-22</option>
+                    <option value="May-22">May-22</option>
+                    <option value="Jun-22">Jun-22</option>
+                    <option value="Jul-22">Jul-22</option>
+                    <option value="Aug-22">Aug-22</option>
+                    <option value="Sep-22">Sep-22</option>
+                    <option value="Oct-22">Oct-22</option>
+                    <option value="Nov-22">Nov-22</option>
+                    <option value="Dec-22">Dec-22</option>
+                    <option value="Jan-23">Jan-23</option>
+                    <option value="Feb-23">Feb-23</option>
+                    <option value="Mar-23">Mar-23</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- Addded 14 Feb -->
+                  <select class="form-control" id="resRole_<%=idx%>" name="resRole_<%=idx%>">
+                    <option value="">--- Choose ---</option>
+                    <option value="Senior PM">Senior PM</option>
+                    <option value="Senior System Engineer">Senior System Engineer</option>
+                    <option value="System Engineer">System Engineer</option>
+                    <option value="Database Engineer">Database Engineer</option>
+                  </select>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <%if(idx == 0){%>
+                    <a class="btn btn-success" href="#proj_res" onclick="addRow('projResources')"><i
+                        class="icon_plus_alt2"></i></a>
+                    <%}else{%>
+                    <a class="btn btn-success" href="#proj_res" onclick="addRow('projResources')"><i
+                        class="icon_plus_alt2"></i></a>
+                    <a class="btn btn-danger" href="#proj_res" onclick="deleteRow(this,'projResources')"><i
+                        class="icon_close_alt2"></i></a>
+                    <%}%>
+                        
+                      </div>
+                    </td>
+                  </tr>
+                  <%})%>
+                    <%}else{%>
+              <tr>
+                <td>1</td>
+                <td>
+                  <select class="form-control" id="resType" name="resType">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Internal">Internal</option>
+                    <option value="PO-Professional Service">PO-Professional Service</option>
+                    <option value="PO-Software">PO-Software</option>
+                    <option value="PO-Hardware">PO-Hardware</option>
+                    <option value="PO-Cloud hosting">PO-Cloud hosting</option>
+                    <option value="PO-SaaS">PO-SaaS</option>
+                    <option value="PO-PaaS">PO-PaaS</option>
+                    <option value="PO-Facilities">PO-Facilities</option>
+                    <option value="PO-Leased Telco Lines">PO-Leased Telco Lines</option>
+                    <option value="PO-Minor Asset/Services">PO-Minor Asset/Services</option>
+                    <option value="PO-Hardware-Opex">PO-Hardware-Opex</option>
+                    <option value="PO-Software-Opex">PO-Software-Opex</option>
+                    <option value="PO-Professional Service-Opex">PO-Professional Service-Opex</option>
+
+                  </select>
+                </td>
+                <td><input type='text' class='form-control font-weight-light' name='resDescription' id='resDescription'>
+                </td>
+                <td><input type='text' class='form-control font-weight-light' name='resVendor' id='resVendor'>
+                </td>
+                <td>
+                  <select class="form-control" id="resCostType" name="resCostType">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Cashout CAPEX">Cashout CAPEX</option>
+                    <option value="Cashout OPEX">Cashout OPEX</option>
+                    <option value="Internal CAPEX">Internal CAPEX</option>
+                    <option value="Internal OPEX">Internal OPEX</option>
+                  </select>
+                </td>
+                <td><input type='text' class='form-control font-weight-light text-right' name='resPersonDay'
+                    id='resPersonDay' placeholder="0" onblur='updatePersonDaysTotals()'>
+                </td>
+                <td><input type='text' class='form-control font-weight-light text-right' name='resCost' id='resCost'
+                    placeholder="0" onblur='updateCostAmtTotals()'>
+                </td>
+                <td><input type='text' class='form-control font-weight-light text-right' name='resTPKey' id='resTPKey'
+                    placeholder="0" max="100">
+                </td>
+                <td>
+                  <!-- added - 14 Feb  -->
+                  <select class="form-control" id="resFundEntity" name="resFundEntity">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="FE-0001 SGH">FE-0001 SGH</option>
+                    <option value="FE-0002 CGH">FE-0002 CGH</option>
+                    <option value="FE-0003 KKH">FE-0003 KKH</option>
+                    <option value="FE-0004 SKH">FE-0004 SKH</option>
+                    <option value="FE-0005 NHC">FE-0005 NHC</option>
+                    <option value="FE-0006 SNEC">FE-0006 SNEC</option>
+                    <option value="FE-0007 NCC">FE-0007 NCC</option>
+                    <option value="FE-0008 NDC">FE-0008 NDC</option>
+                    <option value="FE-0009 Polyclinic">FE-0009 Polyclinic</option>
+                    <option value="FE-0010 Others">FE-0010 Others</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- Added -- 14 Feb -->
+                  <select class="form-control" id="resStart" name="resStart">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Jan-21">Jan-21</option>
+                    <option value="Feb-21">Feb-21</option>
+                    <option value="Mar-21">Mar-21</option>
+                    <option value="Apr-21">Apr-21</option>
+                    <option value="May-21">May-21</option>
+                    <option value="Jun-21">Jun-21</option>
+                    <option value="Jul-21">Jul-21</option>
+                    <option value="Aug-21">Aug-21</option>
+                    <option value="Sep-21">Sep-21</option>
+                    <option value="Oct-21">Oct-21</option>
+                    <option value="Nov-21">Nov-21</option>
+                    <option value="Dec-21">Dec-21</option>
+                    <option value="Jan-22">Jan-22</option>
+                    <option value="Feb-22">Feb-22</option>
+                    <option value="Mar-22">Mar-22</option>
+                    <option value="Apr-22">Apr-22</option>
+                    <option value="May-22">May-22</option>
+                    <option value="Jun-22">Jun-22</option>
+                    <option value="Jul-22">Jul-22</option>
+                    <option value="Aug-22">Aug-22</option>
+                    <option value="Sep-22">Sep-22</option>
+                    <option value="Oct-22">Oct-22</option>
+                    <option value="Nov-22">Nov-22</option>
+                    <option value="Dec-22">Dec-22</option>
+                    <option value="Jan-23">Jan-23</option>
+                    <option value="Feb-23">Feb-23</option>
+                    <option value="Mar-23">Mar-23</option>
+                  </select>
+                </td>
+                <td>
+
+                  <!-- Added -- 14 Feb -->
+                  <select class="form-control" id="resEnd" name="resEnd">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Jan-21">Jan-21</option>
+                    <option value="Feb-21">Feb-21</option>
+                    <option value="Mar-21">Mar-21</option>
+                    <option value="Apr-21">Apr-21</option>
+                    <option value="May-21">May-21</option>
+                    <option value="Jun-21">Jun-21</option>
+                    <option value="Jul-21">Jul-21</option>
+                    <option value="Aug-21">Aug-21</option>
+                    <option value="Sep-21">Sep-21</option>
+                    <option value="Oct-21">Oct-21</option>
+                    <option value="Nov-21">Nov-21</option>
+                    <option value="Dec-21">Dec-21</option>
+                    <option value="Jan-22">Jan-22</option>
+                    <option value="Feb-22">Feb-22</option>
+                    <option value="Mar-22">Mar-22</option>
+                    <option value="Apr-22">Apr-22</option>
+                    <option value="May-22">May-22</option>
+                    <option value="Jun-22">Jun-22</option>
+                    <option value="Jul-22">Jul-22</option>
+                    <option value="Aug-22">Aug-22</option>
+                    <option value="Sep-22">Sep-22</option>
+                    <option value="Oct-22">Oct-22</option>
+                    <option value="Nov-22">Nov-22</option>
+                    <option value="Dec-22">Dec-22</option>
+                    <option value="Jan-23">Jan-23</option>
+                    <option value="Feb-23">Feb-23</option>
+                    <option value="Mar-23">Mar-23</option>
+                  </select>
+                </td>
+                <td>
+                  <!-- Added -- 14 Feb -->
+                  <select class="form-control" id="resRole" name="resRole">
+                    <option value="" selected>--- Choose ---</option>
+                    <option value="Senior PM"">Senior PM</option>
+                    <option value=" Senior System Engineer">Senior System Engineer</option>
+                    <option value="System Engineer">System Engineer</option>
+                    <option value="Database Engineer">Database Engineer</option>
+                  </select>
+                </td>
+                <td>
+
+                  <div class="btn-group">
+                    <a class="btn btn-success" href="#proj_res" onclick="addRow('projResources')"><i
+                        class="icon_plus_alt2"></i></a>
+                  </div>
+                </td>
+              </tr>
+              <%}%>  
+        </table>
+                  <br>
+                  <table class="table table-striped table-advance table-hover" id="projResourcesSum"
+                  name="projResourcesSum">
+                  <tbody>
+                    <tr>
+                      <td style="width: 1%"></td>
+                      <td style="width: 10%"></td>
+                      <td style="width: 10%"></td>
+                      <td style="width: 7%"></td>
+                      <td style="width: 10%">Total</td>
+                      <td style="width: 5%"><input type='text' class='form-control font-weight-light text-right' name='resPersonDaySum' id='resPersonDaySum' placeholder="0" ></td>
+                      <td style="width: 5%"><input type='text' class='form-control font-weight-light text-right' name='resCostSum' id='resCostSum' placeholder="0" ></td>
+                      <td style="width: 5%"></td>
+                      <td style="width: 10%"></td>
+                      <td style="width: 6%"></td>
+                      <td style="width: 6%"></td>
+                      <td style="width: 10%"></td>
+                      <td style="width: 2%"></td>
+                    </tr>
+                  </tbody>
+                  </table>
+
+                  <input type="hidden" name="projResourcesData" id="projResourcesData" />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="row" id="proj_sh">
+            <div class="col-lg-12">
+              <section class="panel panel-success">
+                <header class="panel-heading">
+                  
+                  <div class="pull-left">Project Stakeholders</div>
+                <div class="widget-icons pull-right">
+                  <a href="#shBody" onclick="document.getElementById('shBody').style.display='none'" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                  <a href="#shBody" onclick="document.getElementById('shBody').style.display='block'" class="wmaximize"><i class="fa fa-chevron-down"></i></a>
+                </div>
+                </header>
+             
+                <div class="panel-body" id="shBody">
+                  <table class="table table-striped table-advance table-hover" id="projStakeholders"
+                  name="projStakeholders">
+                  <tbody>
+                    <tr>
+                      <th style="width: 10%">Actor Name</th>
+                      <th style="width: 10%">Role</th>
+                      <th style="width: 10%">Email Address</th>
+                      <th style="width: 10%">Action</th>
+                    </tr>
+                    <% 
+                    if(typeof projRequestInfo != 'undefined'){
+                      projRequestInfo.projStakeHolders.forEach( (item, idx) => { %>
+              <tr>
+                <td><input type='text' class='form-control font-weight-light' name='actorName' id='actorName'
+                    value="<%=item.actorName%>" required>
+                </td>
+                <td><input type='text' class='form-control font-weight-light' name='actorRole' id='actorRole'
+                    value="<%=item.actorRole%>" required>
+                </td>
+                <td><input type='email' class='form-control font-weight-light' name='actorEmail' id='actorEmail'
+                    value="<%=item.actorEmail%>" required>
+                </td>
+                <%if (idx == 0){%>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn btn-success" href="#proj_sh" onclick="addRow('projStakeholders')"><i
+                        class="icon_plus_alt2"></i></a>
+                  </div>
+                </td>
+                <%}else{%>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn btn-success" href="#proj_sh" onclick="addRow('projStakeholders')"><i
+                        class="icon_plus_alt2"></i></a>
+                    <a class="btn btn-danger" href="#proj_sh" onclick="deleteRow(this, 'projStakeholders')"><i
+                        class="icon_close_alt2"></i></a>
+                  </div>
+                </td>
+                <%}%>
+                        </tr>
+                      <%})
+                    }else{%>
+              <tr>
+                <td><input type='text' class='form-control font-weight-light' name='actorName' id='actorName'>
+                </td>
+                <td><input type='text' class='form-control font-weight-light' name='actorRole' id='actorRole'>
+                </td>
+                <td><input type='email' class='form-control font-weight-light' name='actorEmail' id='actorEmail'>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn btn-success" href="#proj_sh" onclick="addRow('projStakeholders')"><i
+                        class="icon_plus_alt2"></i></a>
+                  </div>
+                </td>
+              </tr>
+              <%}%>
+                  </tbody>
+                </table>
+                </div>
+                
+                <input type="hidden" name="projStakeholdersData" id="projStakeholdersData" />
+              </section>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                  <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                  <!-- 15 Feb draft button comment for version 2
+                    <button type="button" class="btn btn-warning pull-right">Save Draft</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </section>
+
+    </section>
+    <!--main content end-->
+    </section>
+    <!-- container section end -->
+
+    <!-- custom javascript for dynamic dropdown lists -->
+    <script src="/js_custom/demand.js"></script>
+
+    <!-- this will auto-populate the textboxes and dropdown fields when viewing existing project requests -->
+    <%if(typeof projRequestInfo!='undefined'){%>
+              <script>
+
+                function selectElement(id, valueToSelect) {
+                  let element = document.getElementById(id);
+                  element.value = valueToSelect;
+                }
+
+                selectElement('projReqname', '<%=projRequestInfo.projReqname%>');
+                selectElement('bizOrgGrp', '<%=projRequestInfo.bizOrgGrp%>');
+                updateBizOrgGrpSub1();
+                selectElement('bizOrgGrpSub1', '<%=projRequestInfo.bizOrgGrpSub1%>');
+                updateBizOrgGrpSub2();
+                selectElement('bizOrgGrpSub2', '<%=projRequestInfo.bizOrgGrpSub2%>');
+                updateBizOrgGrpSub3();
+                selectElement('bizOrgGrpSub3', '<%=projRequestInfo.bizOrgGrpSub3%>');
+
+                selectElement('bizOrgFamily', '<%=projRequestInfo.bizOrgFamily%>');
+                updateBizOrgGrpFamilySub1();
+                selectElement('bizOrgFamilySub1', '<%=projRequestInfo.bizOrgFamilySub1%>');
+
+                selectElement('financialYear', '<%=projRequestInfo.financialYear%>');
+                selectElement('workType', '<%=projRequestInfo.workType%>');
+                selectElement('projOwner', '<%=projRequestInfo.projOwner%>');
+                selectElement('projReqDate', '<%=projRequestInfo.projReqDate%>');
+
+                selectElement('expStartDate', '<%=projRequestInfo.expStartDate%>');
+                selectElement('expTGLDate', '<%=projRequestInfo.expTGLDate%>');
+                selectElement('expTEDate', '<%=projRequestInfo.expTEDate%>');
+                selectElement('projReqCode', '<%=projRequestInfo.projReqCode%>');
+
+                selectElement('projStatus', '<%=projRequestInfo.projStatus%>');
+
+                selectElement('stepDraft', '<%=projRequestInfo.stepDraft%>');
+                selectElement('stepDraftDate', '<%=projRequestInfo.stepDraftDate%>');
+                selectElement('stepCreate', '<%=projRequestInfo.stepCreate%>');
+                selectElement('stepCreateDate', '<%=projRequestInfo.stepCreateDate%>');
+                selectElement('stepValid', '<%=projRequestInfo.stepValid%>');
+                selectElement('stepValidDate', '<%=projRequestInfo.stepValidDate%>');
+                selectElement('stepPreWork', '<%=projRequestInfo.stepPreWork%>');
+                selectElement('stepPreWorkDate', '<%=projRequestInfo.stepPreWorkDate%>');
+                selectElement('stepQuote', '<%=projRequestInfo.stepQuote%>');
+                selectElement('stepQuoteDate', '<%=projRequestInfo.stepQuoteDate%>');
+                selectElement('stepSRB', '<%=projRequestInfo.stepSRB%>');
+                selectElement('stepSRBDate', '<%=projRequestInfo.stepSRBDate%>');
+                selectElement('stepCosted', '<%=projRequestInfo.stepCosted%>');
+                selectElement('stepCostedDate', '<%=projRequestInfo.stepCostedDate%>');
+                selectElement('stepScore', '<%=projRequestInfo.stepScore%>');
+                selectElement('stepScoreDate', '<%=projRequestInfo.stepScoreDate%>');
+                selectElement('stepSelect', '<%=projRequestInfo.stepSelect%>');
+                selectElement('stepSelectDate', '<%=projRequestInfo.stepSelectDate%>');
+                selectElement('stepOpen', '<%=projRequestInfo.stepOpen%>');
+                selectElement('stepOpenDate', '<%=projRequestInfo.stepOpenDate%>');
+
+                selectElement('projDesc', '<%=projRequestInfo.projDesc%>');
+                selectElement('projSummary', '<%=projRequestInfo.projSummary%>');
+                selectElement('projRationale', '<%=projRequestInfo.projRationale%>');
+                selectElement('projRemarks', '<%=projRequestInfo.projRemarks%>');
+                selectElement('bizAlign', '<%=projRequestInfo.bizAlign%>');
+                selectElement('bizStratAreas', '<%=projRequestInfo.bizStratAreas%>');
+                selectElement('bizITStratAreas', '<%=projRequestInfo.bizITStratAreas%>');
+                selectElement('bizTechDomain', '<%=projRequestInfo.bizTechDomain%>');
+                selectElement('systemID', '<%=projRequestInfo.systemID%>');
+                selectElement('leadProgram', '<%=projRequestInfo.leadProgram%>');
+                selectElement('programDirector', '<%=projRequestInfo.programDirector%>');
+                selectElement('projSponsor', '<%=projRequestInfo.projSponsor%>');
+
+                selectElement('scoringPriority', '<%=projRequestInfo.scoringPriority%>');
+
+                selectElement('feBudgetAmtSum', '<%=projRequestInfo.projFundEntities[0].projFundEntitiesSum%>');
+                selectElement('resCostSum', '<%=projRequestInfo.projResources[0].resCostSum%>');
+                selectElement('resPersonDaySum', '<%=projRequestInfo.projResources[0].resPersonDaySum%>');
+
+                selectElement('cfCurrency', '<%=projRequestInfo.projCostsForecast[0].currency%>');
+                selectElement('cfDescription', '<%=projRequestInfo.projCostsForecast[0].projCostsForecastDetails[0].cfDescription%>');
+                selectElement('cfPlanITCost', '<%=projRequestInfo.projCostsForecast[0].projCostsForecastDetails[0].cfPlanITCost%>');
+                selectElement('cfCOCAPEX', '<%=projRequestInfo.projCostsForecast[0].projCostsForecastDetails[0].cfCOCAPEX%>');
+                selectElement('cfCOOPEX', '<%=projRequestInfo.projCostsForecast[0].projCostsForecastDetails[0].cfCOOPEX%>');
+                selectElement('cfICAPEX', '<%=projRequestInfo.projCostsForecast[0].projCostsForecastDetails[0].cfICAPEX%>');
+                selectElement('cfIOPEX', '<%=projRequestInfo.projCostsForecast[0].projCostsForecastDetails[0].cfIOPEX%>');
+                selectElement('cfPDays', '<%=projRequestInfo.projCostsForecast[0].projCostsForecastDetails[0].cfPDays%>');
+
+
+    <% projRequestInfo.projFundEntities[0].projFundEntitiesDetails.forEach((item, idx) => {%>
+                  selectElement('feFundSrc_<%=idx%>', '<%=item.feFundSrc%>');
+                  selectElement('feFundScope_<%=idx%>', '<%=item.feFundScope%>');
+                  selectElement('feEntity_<%=idx%>', '<%=item.feEntity%>');
+                  selectElement('feBizOrgGrp_<%=idx%>', '<%=item.feBizOrgGrp%>');
+                  selectElement('feBudgetYr_<%=idx%>', '<%=item.feBudgetYr%>');
+
+    <%}) %>
+
+    <% projRequestInfo.projResources[0].projResourcesDetails.forEach((item, idx) => {%>
+                    selectElement('resType_<%=idx%>', '<%=item.resType%>');
+                    selectElement('resCostType_<%=idx%>', '<%=item.resCostType%>');
+                    selectElement('resFundEntity_<%=idx%>', '<%=item.resFundEntity%>');
+                    selectElement('resStart_<%=idx%>', '<%=item.resStart%>');
+                    selectElement('resEnd_<%=idx%>', '<%=item.resEnd%>');
+                    selectElement('resRole_<%=idx%>', '<%=item.resRole%>');
+
+    <%}) %>
+
+              </script>
+              <%}%>
+    
+
+
+
+    <%- include('partials/footer2'); %>

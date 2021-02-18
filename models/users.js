@@ -1,16 +1,15 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-    name: {
-      first: { type: String, trim: true},
-      last: { type: String, trim: true}
-    },
+
+    first_name: { type: String, required: true, max: 100 },
+    last_name: { type: String, required: true, max: 100 },
     user_name: {
         type: String,
         required: true,
         unique: true
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true
@@ -27,6 +26,11 @@ const userSchema = new mongoose.Schema({
     mobile: String,
     profile_photo: String,
     create_at: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    update_at: {
         type: Date,
         required: true,
         default: Date.now

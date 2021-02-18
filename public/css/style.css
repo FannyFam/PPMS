@@ -1654,7 +1654,7 @@ div[data-role="editor-toolbar"] {
 
 .top-nav .username {
 
-    font-size: 13px;
+    font-size: 18px;
 
     color: #bdbdbd;
 
@@ -3950,7 +3950,7 @@ div[data-role="editor-toolbar"] {
 
 .badge.bg-important {
 
-    background: #00a0df;
+    background: red;
 
     font-family: 'Lato', sans-serif;
 
@@ -9903,3 +9903,4 @@ span.customSelect.changed {
 #sendmessage.show, #errormessage.show, .show {
 	display:block;
 }
+
