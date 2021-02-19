@@ -28,28 +28,28 @@ Project Request will be available in version 1 as follows :
 | 5 | Change of user profile and password | Y |
 | 6 | Photo upload | Next version  |
 | 7 | Dashboard of modules in PPMS | Y |
-| 8 | List of demand created | Y |
-| 9 | Demand creation/edit | Y |
-| 10 | Family, grouping, classification of demand | Y |
-| 11 | Auto-generation of demand code | Y |
-| 12 | Validation of start, go live and end date | Y |
-| 13 | Status of demand at different stage of 'Demand Qualification' process | Y |
-| 14 | Scoring | Y |
-| 15 | Cost forecast | Y |
-| 16 | Funding Source | Y |
-| 17 | Resources breakdown for subsequent integration with RM and Billing | Y |
-| 18 | Auto calculation of IT Cost | Y |
-| 19 | Auto cost conversion by differnt currency | Next version |
-| 20 | Validation of Cost Forecast, Budget Amount, Resource Cost and Person Day | Next version |
-| 21 | Key stakeholders for demand approval | Y |
-| 22 | Notification by email on demand created or update | Y |
-| 23 | Snapshot of demand status for quick review & decision | Y |
-| 24 | Chat function | Y |
-| 25 | Email notification to users specified in Chat message | Next version |
-| 26 | File attachment | Next version |
-| 27 | History log of demand changes| Next version |
-| 28 | User configuration | Next version |
-| 29 | User Access Matrix | Next version |
+| 8 | Demand creation/edit | Y |
+| 9 | Family, grouping, classification of demand | Y |
+| 10 | Auto-generation of demand code | Y |
+| 11 | Validation of start, go live and end date | Y |
+| 12 | Status of demand at different stage of 'Demand Qualification' process | Y |
+| 13 | Scoring | Y |
+| 14 | Cost forecast | Y |
+| 15 | Funding Source | Y |
+| 16 | Resources breakdown for subsequent integration with RM and Billing | Y |
+| 17 | Auto calculation of IT Cost | Y |
+| 18 | Auto cost conversion by differnt currency | Next version |
+| 19 | Validation of Cost Forecast, Budget Amount, Resource Cost and Person Day | Next version |
+| 20 | Key stakeholders for demand approval | Y |
+| 21 | Notification by email on demand created or update | Y |
+| 22 | Snapshot of demand status for quick review & decision | Y |
+| 23 | Chat function | Y |
+| 24 | Email notification to users specified in Chat message | Next version |
+| 25 | File attachment | Next version |
+| 26 | List of demand created | Y |
+| 27 | Search | Next version |
+| 28 | History log of demand changes| Next version |
+| 29 | User configuration | Next version |
 | 30 | Documentation on each PPMS module| Next version |
 
 
