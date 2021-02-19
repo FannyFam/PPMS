@@ -54,7 +54,8 @@ Project Request will be available in version 1 as follows :
 
 
 ### Specifications / Technical Details
-* Workflow : ![}(image/Demand_Mgmt_PR.jpg)
+* Workflow : 
+![](image/Demand_Mgmt_PR.jpg)
 * HTML, CSS, JS, Node JS, Express, MongoDB, MailGun
 * Template : BOOTSTRAPMADE https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
 * References : 
